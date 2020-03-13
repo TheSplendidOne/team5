@@ -7,10 +7,13 @@ namespace thegame.Services
     {
         public static GameDto AGameDto(Vec movingObjectPosition)
         {
-            var width = 2;
-            var height = 2;
-            var testBoard = new GameBoard(2, 2, new int[,] { { 0, 1 }, { 1, 1 } });
-            return new GameDto(testBoard, true, true, width, height, Guid.Empty, movingObjectPosition.X == 0, movingObjectPosition.Y);
+            var width = 10;
+            var height = 10;
+            var colorCount = 6;
+
+            var boardData = RandomFieldGenerator.Create(width, height, colorCount);
+            var testBoard = new GameBoard(2, 2,  boardData, colorCount);
+            return testBoard.GetDto();
         }
     }
 }

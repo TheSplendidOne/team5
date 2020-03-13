@@ -7,17 +7,37 @@ namespace thegame.Models
 {
     public class GameBoard
     {
-        public int SizeX;
-        public int SizeY;
-        public int[,] Content;
-        public ColorPaletteGenerator Palette;
-
-        public GameBoard(int sizeX, int sizeY, int[,] content)
+        private readonly IReadOnlyList<string> palette;
+        private readonly int[,] content;
+        public GameBoard(int sizeX, int sizeY, int[,] content, int colorCount)
         {
+            palette = ColorPaletteGenerator.CreateHexPalette(colorCount);
             SizeX = sizeX;
             SizeY = sizeY;
-            Content = content;
-            Palette = new ColorPaletteGenerator();
+            this.content = content;
+        }
+
+        public GameDto GetDto()
+        {
+            var cells = new CellDto[SizeX * SizeY];
+            int index = 0;
+            //rc.GetLength(0), src.GetLength(1)
+            for (var i = 0; i < SizeX ; i++)
+            for (var j = 0; i < SizeY; j++)
+            {
+                cells[index++] = new CellDto(
+                    "", 
+                    new Vec(i, j),  
+                    palette[content[i,j]], 
+                    "", 
+                    0 );
+            }
+            return new GameDto(cells, 
+                false, 
+                true, SizeX, 
+                SizeY, new Guid(), 
+                false, 
+                0);
         }
 
         public int this[Vec vec]
@@ -27,7 +47,7 @@ namespace thegame.Models
                 if (0 <= vec.X && vec.X < SizeX
                                && 0 <= vec.Y && vec.Y < SizeY)
                 {
-                    return Content[vec.X, vec.Y];
+                    return content[vec.X, vec.Y];
                 }
                 else
                 {
@@ -39,7 +59,7 @@ namespace thegame.Models
                 if (0 <= vec.X && vec.X < SizeX
                                && 0 <= vec.Y && vec.Y < SizeY)
                 {
-                    Content[vec.X, vec.Y] = value;
+                    content[vec.X, vec.Y] = value;
                 }
                 else
                 {
@@ -47,5 +67,8 @@ namespace thegame.Models
                 }
             }
         }
+
+        public int SizeX;
+        public int SizeY;
     }
 }
