@@ -8,7 +8,7 @@ namespace thegame.Controllers
     public class GamesController : Controller
     {
         [HttpPost]
-        public IActionResult Index()
+        public IActionResult Index([FromBody]int index)
         {
             return new ObjectResult(TestData.AGameDto(new Vec(1, 1)));
         }
