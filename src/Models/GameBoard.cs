@@ -4,7 +4,7 @@ using System.Text;
 
 namespace thegame.Models
 {
-    class GameBoard
+    public class GameBoard
     {
         public GameBoard(int sizeX, int sizeY, int[,] content)
         {
@@ -13,16 +13,31 @@ namespace thegame.Models
             Content = content;
         }
 
-        public int GetColorOfCell(Vec vec)
+        public int this[Vec vec]
         {
-            if (0 <= vec.X && vec.X < SizeX
-             && 0 <= vec.Y && vec.Y < SizeY)
+            get
             {
-                return Content[vec.X, vec.Y];
+                if (0 <= vec.X && vec.X < SizeX
+                               && 0 <= vec.Y && vec.Y < SizeY)
+                {
+                    return Content[vec.X, vec.Y];
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
-            else
+            set
             {
-                throw new ArgumentOutOfRangeException();
+                if (0 <= vec.X && vec.X < SizeX
+                               && 0 <= vec.Y && vec.Y < SizeY)
+                {
+                    Content[vec.X, vec.Y] = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
