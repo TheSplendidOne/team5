@@ -46,6 +46,7 @@ function makeMove(userInput) {
             game = newGame;
             updateField(game);
         });
+    
 }
 
 function renderField(game) {
@@ -123,10 +124,10 @@ function updateCellDiv(cellDiv, cell) {
     cellDiv.style.top = rect.top + "px";
     cellDiv.style.left = rect.left + "px";
     cellDiv.style.zIndex = cell.zIndex;
-    cellDiv.style.color = "BLUE";
+    //cellDiv.style.color = "BLUE";
     cellDiv.style.backgroundColor = cell.type;
     cellDiv.className = " animated cell";
-    //cellDiv.className = cell.type + " animated cell";
+  //  cellDiv.className = cell.type + " animated cell";
     cellDiv.innerText = cell.content;
 }
 

@@ -7,24 +7,17 @@ namespace thegame.Models
 {
     public class GameBoard
     {
-        public readonly IReadOnlyList<string> palette;
-        public readonly int[,] content;
-
-        public Guid Id;
-
-        public Int32 PreviousAdjacentCellsCount { get; set; }
-
-        public Int32 Round { get; set; }
-
-        public Int32 Points { get; set; }
+        public IReadOnlyList<string> Palette { get; }
+        public int[,] Content { get; }
+        private readonly Guid id;
 
         public GameBoard(int sizeX, int sizeY, int[,] content, Guid id, IReadOnlyList<String> palette)
         {
-            Id = id;
-            this.palette = palette;
+            this.id = id;
+            this.Palette = palette;
             SizeX = sizeX;
             SizeY = sizeY;
-            this.content = content;
+            this.Content = content;
         }
 
         public GameDto GetDto()
@@ -38,14 +31,14 @@ namespace thegame.Models
                 cells[index++] = new CellDto(
                     index.ToString(), 
                     new Vec(i, j),  
-                    palette[content[i,j]], 
+                    Palette[Content[i,j]], 
                     "", 
                     0 );
             }
             return new GameDto(cells, 
                 false, 
                 true, SizeX, 
-                SizeY,Id, 
+                SizeY,id, 
                 false, 
                 0);
         }
@@ -57,7 +50,7 @@ namespace thegame.Models
                 if (0 <= vec.X && vec.X < SizeX
                                && 0 <= vec.Y && vec.Y < SizeY)
                 {
-                    return content[vec.X, vec.Y];
+                    return Content[vec.X, vec.Y];
                 }
                 else
                 {
@@ -69,7 +62,7 @@ namespace thegame.Models
                 if (0 <= vec.X && vec.X < SizeX
                                && 0 <= vec.Y && vec.Y < SizeY)
                 {
-                    content[vec.X, vec.Y] = value;
+                    Content[vec.X, vec.Y] = value;
                 }
                 else
                 {

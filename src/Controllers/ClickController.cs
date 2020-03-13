@@ -17,34 +17,38 @@ namespace thegame.Controllers
             var result = game.GetDto();
             if (userInput.ClickedPos != null)
             {
-                List<Vec> adjacentCells = DFS.GetAdjacentCells(
-                    new Boolean[game.SizeX, game.SizeY],
-                    new Vec(0, 0), 
-                    game,
-                    game[new Vec(0, 0)]);
+                var adjacentCells = GetAdjacentCells(game);
                 adjacentCells.Add(new Vec(0, 0));
-                foreach (CellDto cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
+                foreach (var cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
                 {
-                    cell.Type = game.palette[game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
+                    cell.Type = game.Palette[game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
                 }
 
-                if (adjacentCells.Count == game.SizeX * game.SizeY)
-                    result.IsFinished = true;
-                game.Points += adjacentCells.Count - game.PreviousAdjacentCellsCount;
-                game.PreviousAdjacentCellsCount = adjacentCells.Count;
+     
+                // game.Points += adjacentCells.Count - game.PreviousAdjacentCellsCount;
+                // game.PreviousAdjacentCellsCount = adjacentCells.Count;
 
                 foreach (var adjacentCell in adjacentCells)
                 {
-                    game.content[adjacentCell.X, adjacentCell.Y] =
-                        game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
+                    game.Content[adjacentCell.X, adjacentCell.Y] =
+                        game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
                 }
 
+                var adjacentCellCount = GetAdjacentCells(game).Count + 1;
+                result.IsFinished = adjacentCellCount == game.SizeX * game.SizeY;
+                result.Score = adjacentCellCount;
             }
-
-            ++game.Round;
-            result.Score = game.Points;
 
             return new ObjectResult(result);
         }
+        private IList<Vec> GetAdjacentCells(GameBoard game)
+        {
+            return DFS.GetAdjacentCells(
+                new Boolean[game.SizeX, game.SizeY],
+                new Vec(0, 0), 
+                game,
+                game[new Vec(0, 0)]);
+        }
     }
+    
 }
