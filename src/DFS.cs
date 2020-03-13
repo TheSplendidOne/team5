@@ -14,7 +14,7 @@ namespace thegame
 
             void CheckCellAndAdd(Vec checkingCell)
             {
-                if (!checkedCells[checkingCell.X, checkingCell.Y] && CheckCell(gameBoard, currentCell, checkingCell))
+                if (CheckCell(gameBoard, currentCell, checkingCell) && !checkedCells[checkingCell.X, checkingCell.Y])
                 {
                     sameColoredCells.Add(checkingCell);
                     sameColoredCells.AddRange(GetAdjacentCells(checkedCells, checkingCell, gameBoard, searchingCellsColorIndex));
@@ -41,8 +41,8 @@ namespace thegame
         
         private static Boolean IsCellOnBoard(Vec currentCell, GameBoard gameBoard)
         {
-            return CheckRange(currentCell.X - 1, 0, gameBoard.SizeX) && 
-                   CheckRange(currentCell.Y - 1, 0, gameBoard.SizeY);
+            return CheckRange(currentCell.X, 0, gameBoard.SizeX - 1) && 
+                   CheckRange(currentCell.Y, 0, gameBoard.SizeY - 1);
         }
 
         private static Boolean CheckRange(Int32 value, Int32 leftBorder, Int32 rightBorder)

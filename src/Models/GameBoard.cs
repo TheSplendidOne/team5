@@ -7,10 +7,14 @@ namespace thegame.Models
 {
     public class GameBoard
     {
-        private readonly IReadOnlyList<string> palette;
-        private readonly int[,] content;
-        public GameBoard(int sizeX, int sizeY, int[,] content, IReadOnlyList<String> palette)
+        public readonly IReadOnlyList<string> palette;
+        public readonly int[,] content;
+
+        public Guid Id;
+
+        public GameBoard(int sizeX, int sizeY, int[,] content, Guid id, IReadOnlyList<String> palette)
         {
+            Id = id;
             this.palette = palette;
             SizeX = sizeX;
             SizeY = sizeY;
@@ -23,7 +27,7 @@ namespace thegame.Models
             int index = 0;
             //rc.GetLength(0), src.GetLength(1)
             for (var i = 0; i < SizeX ; i++)
-            for (var j = 0; i < SizeY; j++)
+            for (var j = 0; j < SizeY; j++)
             {
                 cells[index++] = new CellDto(
                     "", 
@@ -35,7 +39,7 @@ namespace thegame.Models
             return new GameDto(cells, 
                 false, 
                 true, SizeX, 
-                SizeY, new Guid(), 
+                SizeY,Id, 
                 false, 
                 0);
         }

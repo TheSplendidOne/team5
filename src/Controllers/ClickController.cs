@@ -13,24 +13,21 @@ namespace thegame.Controllers
         [HttpPost]
         public IActionResult Click(Guid gameId, [FromBody]UserInputForMovesPost userInput)
         {
-            var game = TestData.AGameDto(userInput.ClickedPos ?? new Vec(1, 1));
+            var game = GamesRepo.Games[gameId];
+            var result = game.GetDto();
             if (userInput.ClickedPos != null)
             {
-                IReadOnlyList<String> palette = ColorPaletteGenerator.CreateHexPalette();
-                Int32[,] cells = game.Cells.ToIndexArray(palette.ToArray());
                 List<Vec> adjacentCells = DFS.GetAdjacentCells(
-                    new Boolean[game.Width, game.Height],
+                    new Boolean[game.SizeX, game.SizeY],
                     userInput.ClickedPos,
-                    new GameBoard(game.Width, game.Height,
-                        cells, palette),
-                    cells[0, 0]);
-
-                foreach (CellDto cell in game.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
+                    game,
+                    game[userInput.ClickedPos]);
+                foreach (CellDto cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
                 {
-                    cell.Type = palette[cells[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
+                    cell.Type = game.palette[game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
                 }
             }
-            return new ObjectResult(game);
+            return new ObjectResult(result);
         }
     }
 }
