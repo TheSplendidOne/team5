@@ -30,7 +30,7 @@ namespace thegame.Models
             for (var j = 0; j < SizeY; j++)
             {
                 cells[index++] = new CellDto(
-                    "", 
+                    (i * SizeX + j).ToString(), 
                     new Vec(i, j),  
                     palette[content[i,j]], 
                     "", 

@@ -19,9 +19,10 @@ namespace thegame.Controllers
             {
                 List<Vec> adjacentCells = DFS.GetAdjacentCells(
                     new Boolean[game.SizeX, game.SizeY],
-                    userInput.ClickedPos,
+                    new Vec(0, 0), 
                     game,
-                    game[userInput.ClickedPos]);
+                    game[new Vec(0, 0)]);
+                adjacentCells.Add(new Vec(0, 0));
                 foreach (CellDto cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
                 {
                     cell.Type = game.palette[game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
