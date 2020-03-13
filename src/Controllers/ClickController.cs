@@ -35,17 +35,19 @@ namespace thegame.Controllers
             }
             else
             {
+                if(userInput.ClickedPos == null)
+                    return new ObjectResult(game.GetDto());
                 maxColorId = game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
            
             }
             var adjacentCellCount = ReColourCells(game, maxColorId);
+            game.Score = adjacentCellCount;
             var result = game.GetDto();
             result.IsFinished = adjacentCellCount == game.SizeX * game.SizeY;
-            result.Score = adjacentCellCount;
             return new ObjectResult(result);
 
-            return new ObjectResult(
-                ReColourCells(game, maxColorId));
+            //return new ObjectResult(
+            //    ReColourCells(game, maxColorId));
         }
 
         private int ReColourCells(GameBoard game, int color)

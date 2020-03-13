@@ -9,6 +9,9 @@ namespace thegame.Models
     {
         public IReadOnlyList<string> Palette { get; }
         public int[,] Content { get; private set; }
+
+        public Int32 Score { get; set; }
+
         private readonly Guid id;
 
         public GameBoard(int sizeX, int sizeY, int[,] content, Guid id, IReadOnlyList<String> palette)
@@ -44,7 +47,7 @@ namespace thegame.Models
                 true, SizeX, 
                 SizeY,id, 
                 false, 
-                0);
+                Score);
         }
 
         public int this[Vec vec]
