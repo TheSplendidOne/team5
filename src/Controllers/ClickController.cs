@@ -14,40 +14,67 @@ namespace thegame.Controllers
         public IActionResult Click(Guid gameId, [FromBody]UserInputForMovesPost userInput)
         {
             var game = GamesRepo.Games[gameId];
-            var result = game.GetDto();
-            if (userInput.ClickedPos != null)
+            var maxColorId = -1;
+            if (userInput.KeyPressed.ToString().ToUpper() == "I")
             {
-                var adjacentCells = GetAdjacentCells(game);
-                adjacentCells.Add(new Vec(0, 0));
-                foreach (var cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
+                var palette = game.Palette;
+                var maxCount = -1;
+      
+                for (var i = 0; i < palette.Count; i++)
                 {
-                    cell.Type = game.Palette[game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
+                    var prevContentState = (int[,]) game.Content.Clone();
+                    ReColourCells(game, i);
+                    var newCount = GetAdjacentCells(game, i).Count;
+                    if (newCount > maxCount)
+                    {
+                        maxCount = newCount;
+                        maxColorId = i;
+                    }
+                    game.SetContent(prevContentState);
                 }
+            }
+            else
+            {
+                maxColorId = game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
+           
+            }
+            var adjacentCellCount = ReColourCells(game, maxColorId);
+            var result = game.GetDto();
+            result.IsFinished = adjacentCellCount == game.SizeX * game.SizeY;
+            result.Score = adjacentCellCount;
+            return new ObjectResult(result);
 
-     
-                // game.Points += adjacentCells.Count - game.PreviousAdjacentCellsCount;
-                // game.PreviousAdjacentCellsCount = adjacentCells.Count;
+            return new ObjectResult(
+                ReColourCells(game, maxColorId));
+        }
 
-                foreach (var adjacentCell in adjacentCells)
-                {
-                    game.Content[adjacentCell.X, adjacentCell.Y] =
-                        game.Content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
-                }
+        private int ReColourCells(GameBoard game, int color)
+        {
+            var result = game.GetDto();
+            var adjacentCells = GetAdjacentCells(game, game[new Vec(0, 0)]);
+            adjacentCells.Add(new Vec(0, 0));
+            foreach (var cell in result.Cells.Where(cell => adjacentCells.Contains(cell.Pos)))
+            {
+                cell.Type = game.Palette[color];
+            }
+            
 
-                var adjacentCellCount = GetAdjacentCells(game).Count + 1;
-                result.IsFinished = adjacentCellCount == game.SizeX * game.SizeY;
-                result.Score = adjacentCellCount;
+            foreach (var adjacentCell in adjacentCells)
+            {
+                game.Content[adjacentCell.X, adjacentCell.Y] = color;
             }
 
-            return new ObjectResult(result);
+            return GetAdjacentCells(game, game[new Vec(0, 0)]).Count + 1;
+ 
         }
-        private IList<Vec> GetAdjacentCells(GameBoard game)
+
+        private IList<Vec> GetAdjacentCells(GameBoard game, int color)
         {
             return DFS.GetAdjacentCells(
                 new Boolean[game.SizeX, game.SizeY],
                 new Vec(0, 0), 
                 game,
-                game[new Vec(0, 0)]);
+                color);
         }
     }
     

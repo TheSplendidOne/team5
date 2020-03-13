@@ -8,7 +8,7 @@ namespace thegame.Models
     public class GameBoard
     {
         public IReadOnlyList<string> Palette { get; }
-        public int[,] Content { get; }
+        public int[,] Content { get; private set; }
         private readonly Guid id;
 
         public GameBoard(int sizeX, int sizeY, int[,] content, Guid id, IReadOnlyList<String> palette)
@@ -17,6 +17,11 @@ namespace thegame.Models
             this.Palette = palette;
             SizeX = sizeX;
             SizeY = sizeY;
+            this.Content = content;
+        }
+
+        public void SetContent(int[,] content)
+        {
             this.Content = content;
         }
 
@@ -36,7 +41,7 @@ namespace thegame.Models
                     0 );
             }
             return new GameDto(cells, 
-                false, 
+                true, 
                 true, SizeX, 
                 SizeY,id, 
                 false, 
