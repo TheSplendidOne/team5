@@ -23,7 +23,7 @@ namespace thegame.Models
             int index = 0;
             //rc.GetLength(0), src.GetLength(1)
             for (var i = 0; i < SizeX ; i++)
-            for (var j = 0; i < SizeY; j++)
+            for (var j = 0; j < SizeY; j++)
             {
                 cells[index++] = new CellDto(
                     "", 

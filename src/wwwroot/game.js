@@ -115,9 +115,9 @@ function updateCellDiv(cellDiv, cell) {
     cellDiv.style.left = rect.left + "px";
     cellDiv.style.zIndex = cell.zIndex;
     cellDiv.style.color = "BLUE";
-    //cellDiv.style.backgroundColor = "BLUE";
+    cellDiv.style.backgroundColor = cell.type;
     cellDiv.className = " animated cell";
-    cellDiv.className = cell.type + " animated cell";
+    //cellDiv.className = cell.type + " animated cell";
     cellDiv.innerText = cell.content;
 }
 

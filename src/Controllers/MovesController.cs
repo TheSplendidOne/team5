@@ -13,8 +13,8 @@ namespace thegame.Controllers
         public IActionResult Moves(Guid gameId, [FromBody]UserInputForMovesPost userInput)
         {
             var game = TestData.AGameDto(userInput.ClickedPos ?? new Vec(1, 1));
-            if (userInput.ClickedPos != null)
-                game.Cells.First(c => c.Type == "");
+            //if (userInput.ClickedPos != null)
+               // game.Cells.First(c => c.Type == "");
             return new ObjectResult(game);
         }
     }

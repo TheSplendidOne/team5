@@ -12,8 +12,9 @@ namespace thegame.Services
             var colorCount = 6;
 
             var boardData = RandomFieldGenerator.Create(width, height, colorCount);
-            var testBoard = new GameBoard(2, 2,  boardData, colorCount);
-            return testBoard.GetDto();
+            var testBoard = new GameBoard(width, height,  boardData, colorCount);
+            var result = testBoard.GetDto();
+            return result;
         }
     }
 }
