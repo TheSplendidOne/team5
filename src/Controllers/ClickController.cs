@@ -14,7 +14,7 @@ namespace thegame.Controllers
         {
             var game = TestData.AGameDto(userInput.ClickedPos ?? new Vec(1, 1));
             if (userInput.ClickedPos != null)
-                game.Board[new Vec(0, 0)] = userInput.ClickedPos.X;
+                game.Cells.First(c => c.Type == "");
             return new ObjectResult(game);
         }
     }
