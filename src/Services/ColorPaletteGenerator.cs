@@ -27,5 +27,17 @@ namespace thegame.Services
                 throw new ArgumentOutOfRangeException(nameof(count), $"Max palette length: {BasicPallette.Length}");
             return Array.AsReadOnly<string>(BasicPallette.Take(count).ToArray());
         }
+
+        public int IndexInPalette(string hexCode)
+        {
+            for (int i = 0; i < BasicPallette.Length; i++)
+            {
+                if (BasicPallette[i] == hexCode)
+                {
+                    return i;
+                }
+            }
+            throw new ArgumentException();
+        }
     }
 }
