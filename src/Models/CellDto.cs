@@ -1,3 +1,6 @@
+using thegame.Services;
+using System.Linq;
+
 namespace thegame.Models
 {
     public class CellDto
