@@ -28,12 +28,22 @@ namespace thegame.Controllers
                     cell.Type = game.palette[game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y]];
                 }
 
+                if (adjacentCells.Count == game.SizeX * game.SizeY)
+                    result.IsFinished = true;
+                game.Points += adjacentCells.Count - game.PreviousAdjacentCellsCount;
+                game.PreviousAdjacentCellsCount = adjacentCells.Count;
+
                 foreach (var adjacentCell in adjacentCells)
                 {
                     game.content[adjacentCell.X, adjacentCell.Y] =
                         game.content[userInput.ClickedPos.X, userInput.ClickedPos.Y];
                 }
+
             }
+
+            ++game.Round;
+            result.Score = game.Points;
+
             return new ObjectResult(result);
         }
     }

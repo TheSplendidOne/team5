@@ -12,6 +12,12 @@ namespace thegame.Models
 
         public Guid Id;
 
+        public Int32 PreviousAdjacentCellsCount { get; set; }
+
+        public Int32 Round { get; set; }
+
+        public Int32 Points { get; set; }
+
         public GameBoard(int sizeX, int sizeY, int[,] content, Guid id, IReadOnlyList<String> palette)
         {
             Id = id;
@@ -30,7 +36,7 @@ namespace thegame.Models
             for (var j = 0; j < SizeY; j++)
             {
                 cells[index++] = new CellDto(
-                    (i * SizeX + j).ToString(), 
+                    index.ToString(), 
                     new Vec(i, j),  
                     palette[content[i,j]], 
                     "", 
