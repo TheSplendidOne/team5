@@ -24,7 +24,7 @@ async function startGame() {
 function makeMove(userInput) {
     if (!game || game.isFinished) return;
     console.log("send userInput: %o", userInput);
-    fetch(`/api/games/${game.id}/moves`,
+    fetch(`/api/games/${game.id}/click`,
             {
                 method: "POST",
                 headers: {

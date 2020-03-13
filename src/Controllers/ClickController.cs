@@ -6,11 +6,11 @@ using thegame.Services;
 
 namespace thegame.Controllers
 {
-    [Route("api/games/{gameId}/moves")]
-    public class MovesController : Controller
+    [Route("api/games/{gameId}/click")]
+    public class ClickController : Controller
     {
         [HttpPost]
-        public IActionResult Moves(Guid gameId, [FromBody]UserInputForMovesPost userInput)
+        public IActionResult Click(Guid gameId, [FromBody]UserInputForMovesPost userInput)
         {
             var game = TestData.AGameDto(userInput.ClickedPos ?? new Vec(1, 1));
             if (userInput.ClickedPos != null)
