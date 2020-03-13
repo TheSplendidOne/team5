@@ -22,21 +22,6 @@ namespace thegame.Models
             ZIndex = zIndex;
         }
 
-        public int[,] ToIndexArray(this CellDto[] cells, ColorPaletteGenerator palette)
-        {
-            int axisX = cells.Select<CellDto, int>(x => x.Pos.X).Max();
-            int axisY = cells.Select<CellDto, int>(y => y.Pos.Y).Max();
-
-            int[,] indexArray = new int[axisX, axisY];
-
-            foreach (CellDto cell in cells)
-            {
-                indexArray[cell.Pos.X, cell.Pos.Y] = palette.IndexInPalette(cell.Content);
-            }
-
-            return indexArray;
-        }
-
         public string Id;
         public Vec Pos;
         public int ZIndex;
