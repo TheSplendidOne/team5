@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using thegame.Services;
 
 namespace thegame.Models
 {
     public class GameBoard
     {
+        public int SizeX;
+        public int SizeY;
+        public int[,] Content;
+        public ColorPaletteGenerator Palette;
+
         public GameBoard(int sizeX, int sizeY, int[,] content)
         {
             SizeX = sizeX;
             SizeY = sizeY;
             Content = content;
+            Palette = new ColorPaletteGenerator();
         }
 
         public int this[Vec vec]
@@ -40,9 +47,5 @@ namespace thegame.Models
                 }
             }
         }
-
-        public int SizeX;
-        public int SizeY;
-        public int[,] Content;
     }
 }
