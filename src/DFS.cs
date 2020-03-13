@@ -29,7 +29,7 @@ namespace thegame
             return sameColoredCells;
         }
 
-        public static Boolean CheckCell(GameBoard gameBoard, Vec currentCell, Vec futureCell)
+        private static Boolean CheckCell(GameBoard gameBoard, Vec currentCell, Vec futureCell)
         {
             return IsCellOnBoard(futureCell, gameBoard) && IsSameColor(gameBoard, currentCell, futureCell);
         }

@@ -9,7 +9,7 @@ namespace thegame
 {
     public static class CellsArrayExtensions
     {
-        public static int[,] ToIndexArray(this CellDto[] cells, ColorPaletteGenerator palette)
+        public static int[,] ToIndexArray(this CellDto[] cells, String[] palette)
         {
             int axisX = cells.Select<CellDto, int>(x => x.Pos.X).Max();
             int axisY = cells.Select<CellDto, int>(y => y.Pos.Y).Max();
@@ -18,7 +18,7 @@ namespace thegame
 
             foreach (CellDto cell in cells)
             {
-                indexArray[cell.Pos.X, cell.Pos.Y] = palette.IndexInPalette(cell.Content);
+                indexArray[cell.Pos.X, cell.Pos.Y] = ColorPaletteGenerator.IndexInPalette(palette, cell.Content);
             }
 
             return indexArray;

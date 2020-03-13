@@ -12,7 +12,7 @@ namespace thegame.Services
             var colorCount = 6;
 
             var boardData = RandomFieldGenerator.Create(width, height, colorCount);
-            var testBoard = new GameBoard(2, 2,  boardData, colorCount);
+            var testBoard = new GameBoard(2, 2,  boardData, ColorPaletteGenerator.CreateHexPalette());
             return testBoard.GetDto();
         }
     }

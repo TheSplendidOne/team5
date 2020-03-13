@@ -9,9 +9,9 @@ namespace thegame.Models
     {
         private readonly IReadOnlyList<string> palette;
         private readonly int[,] content;
-        public GameBoard(int sizeX, int sizeY, int[,] content, int colorCount)
+        public GameBoard(int sizeX, int sizeY, int[,] content, IReadOnlyList<String> palette)
         {
-            palette = ColorPaletteGenerator.CreateHexPalette(colorCount);
+            this.palette = palette;
             SizeX = sizeX;
             SizeY = sizeY;
             this.content = content;

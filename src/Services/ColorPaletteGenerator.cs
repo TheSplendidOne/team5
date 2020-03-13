@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace thegame.Services
 {
-    public class ColorPaletteGenerator
+    public static class ColorPaletteGenerator
     {
         private static readonly string[] BasicPallette =
         {
@@ -28,11 +28,15 @@ namespace thegame.Services
             return Array.AsReadOnly<string>(BasicPallette.Take(count).ToArray());
         }
 
-        public int IndexInPalette(string hexCode)
+        public static IReadOnlyList<string> CreateHexPalette() //
         {
-            for (int i = 0; i < BasicPallette.Length; i++)
+            return CreateHexPalette(BasicPallette.Length);
+        }
+        public static int IndexInPalette(IReadOnlyList<string> palette, string hexCode)
+        {
+            for (int i = 0; i < palette.Count; i++)
             {
-                if (BasicPallette[i] == hexCode)
+                if (palette[i] == hexCode)
                 {
                     return i;
                 }

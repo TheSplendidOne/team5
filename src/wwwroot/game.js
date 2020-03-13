@@ -15,9 +15,18 @@ function handleApiErrors(result) {
 }
 
 async function startGame() {
-    game = await fetch("/api/games", { method: "POST" })
+    let index = document.getElementById("LevelComboBox").selectedIndex;
+    game = await fetch("/api/games", 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(index)
+        })
         .then(handleApiErrors);
     window.history.replaceState(game.id, "The Game", "/" + game.id);
+    console.log(game);
     renderField(game);
 }
 
@@ -115,9 +124,9 @@ function updateCellDiv(cellDiv, cell) {
     cellDiv.style.left = rect.left + "px";
     cellDiv.style.zIndex = cell.zIndex;
     cellDiv.style.color = "BLUE";
-    //cellDiv.style.backgroundColor = "BLUE";
+    cellDiv.style.backgroundColor = cell.type;
     cellDiv.className = " animated cell";
-    cellDiv.className = cell.type + " animated cell";
+    //cellDiv.className = cell.type + " animated cell";
     cellDiv.innerText = cell.content;
 }
 
